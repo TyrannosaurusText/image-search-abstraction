@@ -46,7 +46,7 @@ const maintainTable = () => {
   `, (err, result) => {
     if (err) console.log(err)
     client.end();
-    if (result.rows[0].count >= 100) {
+    if (result !== undefined && result.rows[0].count >= 100) {
       const client = connectToDatabase();
       client.query(`
       DELETE FROM recentsearch WHERE id IN (SELECT id FROM recentsearch ORDER BY id DESC LIMIT 100 OFFSET 100);
