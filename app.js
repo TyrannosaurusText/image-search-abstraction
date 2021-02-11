@@ -4,10 +4,9 @@ const app = express()
 const axios = require('axios');
 const rateLimit = require("express-rate-limit");
 
-//10 request per day
 const limiter = rateLimit({
-  windowMs: 24 * 60 * 60 * 1000,
-  max: 100
+  windowMs: 15 * 60 * 1000,
+  max: 10
 });
 
 app.use(limiter);
@@ -28,8 +27,6 @@ const connectionInfo = process.env.NODE_ENV === 'production' ? {
     password: process.env.PGPASSWORD,
     port: process.env.PGPORT,
   }
-
-console.log(connectionInfo, process.env.NODE_ENV, process.env.PGURL);
 
 const connectToDatabase = () => {
   try {
