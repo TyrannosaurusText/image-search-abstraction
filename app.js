@@ -119,18 +119,3 @@ app.get('/recent', (req, res) => {
     res.send(result.rows);
   })
 })
-
-app.get('/makeTable', (req, res) => {
-  const client = connectToDatabase();
-  client.query(`
-  CREATE TABLE IF NOT EXISTS recentsearch (
-    Id serial primary key, 
-    Timestamp timestamptz NOT NULL DEFAULT NOW(), 
-    Query text NOT NULL
-    );`
-    , (err) => {
-      client.end();
-      if (err) res.send(err);
-      res.send("Cannot GET /makeTab");
-    })
-})
