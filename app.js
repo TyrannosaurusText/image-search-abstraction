@@ -2,6 +2,17 @@ const port = process.env.PORT || 3000;
 const express = require('express')
 const app = express()
 const axios = require('axios');
+const rateLimit = require("express-rate-limit");
+
+//10 request per day
+const limiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 10
+});
+
+app.use(limiter);
+
+
 require('dotenv').config();
 const connectionInfo = process.env.NODE_ENV === 'production' ? {
   connectionString: process.env.PGURL,
