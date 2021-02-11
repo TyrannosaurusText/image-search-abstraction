@@ -7,10 +7,14 @@ const rateLimit = require("express-rate-limit");
 //10 request per day
 const limiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000,
-  max: 10
+  max: 100
 });
 
 app.use(limiter);
+
+app.get("/", (req, res) => {
+  res.status(403).send("Forbbiden");
+})
 
 
 require('dotenv').config();
@@ -103,7 +107,7 @@ app.get('/query/:searchterm', (req, res) => {
   const client = connectToDatabase();
   client.query(`INSERT INTO recentsearch(query) VALUES ('${q}');`, (err, result) => {
     client.end();
-    if (err) res.send(err);
+    if (err) console.log(err);
   });
 
   maintainTable();
