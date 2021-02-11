@@ -20,6 +20,7 @@ app.get("/", (req, res) => {
 require('dotenv').config();
 const connectionInfo = process.env.NODE_ENV === 'production' ? {
   connectionString: process.env.PGURL,
+  ssl: { rejectUnauthorized: false }
 } : {
     user: process.env.PGHOST,
     database: process.env.PGDATABASE,
@@ -27,6 +28,8 @@ const connectionInfo = process.env.NODE_ENV === 'production' ? {
     password: process.env.PGPASSWORD,
     port: process.env.PGPORT,
   }
+
+console.log(connectionInfo, process.env.NODE_ENV, process.env.PGURL);
 
 const connectToDatabase = () => {
   try {
