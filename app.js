@@ -97,7 +97,7 @@ app.get('/query/:searchterm', (req, res) => {
   }).then(response => {
     const data = response.data.items;
     const result = data.map((item) => getImg(item));
-    res.send(JSON.stringify(result, 2));
+    res.send(JSON.stringify(result));
 
   }).catch(err => {
     console.log(err);
@@ -119,7 +119,17 @@ app.get('/recent', (req, res) => {
   const client = connectToDatabase();
   client.query('SELECT query, timestamp FROM recentsearch;', (err, result) => {
     client.end();
-    if (err) res.send(err);
+    if (err) {
+      res.send(err)
+      return
+    };
+    if (result === undefined) {
+      console.log(err);
+      console.log(result);
+      res.send(result);
+      return
+    }
+
     res.send(result.rows);
   })
 })
